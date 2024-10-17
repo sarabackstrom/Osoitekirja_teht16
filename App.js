@@ -1,20 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import HomeScreen from './components/HomeScreen'; 
+import MapScreen from './components/MapScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { luoTietokanta } from './components/Database';
+import { useEffect } from 'react';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  useEffect(() => {
+    luoTietokanta();
+  }, []);
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerBackTitleVisible: false}}>
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="MapScreen" component={MapScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
